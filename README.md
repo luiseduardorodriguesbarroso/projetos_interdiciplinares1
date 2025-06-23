@@ -1,5 +1,10 @@
-# projetos_interdiciplinares1
-projeto Arduino / Terrorista 
+CODIGO DO TERRORISTA 
+
+PROBLEMAS ...:
+
+*BOTÃO DE DESLIGAR 
+*SENSOR UTRASONICO PARA DETECTAR PRESENÇA 
+*SENSORES DE CONTRASTE FA,FD E AD  //QUANDO INDETIFICAR A LINHA PRETA RECUAR  
 
 #include <Ultrasonic.h>
 Ultrasonic ultrasonic(8, 7); // TRIG = 8, ECHO = 7
@@ -19,10 +24,10 @@ const int motorDir_A = 9;
 const int motorDir_B = 10;
 
 // Parâmetros
-const int velocidade = 220;          // PWM ajustado para ~195RPM
+const int velocidade = 248;          // PWM ajustado para ~195RPM
 const int tempoRecuo = 100;          // ms
 const int tempoGiro = 100;           // ms
-const int alcanceAtaque = 30;        // cm
+const int alcanceAtaque = 10;        // cm
 const int tempoInicial = 3000;       // ms (contagem regressiva)
 
 // ============ SETUP ============
@@ -73,19 +78,19 @@ void loop() {
   if (cm > 0 && cm <= alcanceAtaque) {
     Serial.println("🎯 Inimigo detectado! Atacando...");
     atacar();
-    delay(10); // pequeno impulso
+    delay(100); // pequeno impulso
     return;
   }
 
   // Movimento padrão de busca
-  frente(10);
+  frente();
   delay(10);
 }
 
 // ============ FUNÇÕES DE MOVIMENTO ============
 
 void frente() {
-  Serial.println("🚀 Frente");
+  Serial.println("Frente");
   analogWrite(motorEsq_A, velocidade);
   analogWrite(motorEsq_B, 0);
   analogWrite(motorDir_A, velocidade);
@@ -93,7 +98,7 @@ void frente() {
 }
 
 void re() {
-  Serial.println("🔙 Ré");
+  Serial.println("Ré");
   analogWrite(motorEsq_A, 0);
   analogWrite(motorEsq_B, velocidade);
   analogWrite(motorDir_A, 0);
@@ -101,7 +106,7 @@ void re() {
 }
 
 void girar() {
-  Serial.println("🔄 Girando");
+  Serial.println("Girando");
   analogWrite(motorEsq_A, velocidade);
   analogWrite(motorEsq_B, 0);
   analogWrite(motorDir_A, 0);
@@ -109,7 +114,7 @@ void girar() {
 }
 
 void atacar() {
-  Serial.println("💥 Atacar!");
+  Serial.println("Atacar!");
   analogWrite(motorEsq_A, velocidade);
   analogWrite(motorEsq_B, 0);
   analogWrite(motorDir_A, velocidade);
@@ -122,4 +127,3 @@ void parar() {
   analogWrite(motorDir_A, 0);
   analogWrite(motorDir_B, 0);
 }
-
