@@ -1,19 +1,10 @@
-CODIGO DO TERRORISTA 
-
-PROBLEMAS ...:
-
-*BOTÃO DE DESLIGAR 
-*SENSOR UTRASONICO PARA DETECTAR PRESENÇA 
-*SENSORES DE CONTRASTE FA,FD E AD  //QUANDO INDETIFICAR A LINHA PRETA RECUAR  
-*MOTOR ESQUERDO NÃO ESTA LIGANDO O QUE ESTA FAZENDO O ROBÔ ANDAR EM CIRCULO
-
 #include <Ultrasonic.h>
 Ultrasonic ultrasonic(8, 7); // TRIG = 8, ECHO = 7
 
 // Sensores de linha
-const int sensorTras = 11;
-const int sensorEsq = 12;
-const int sensorDir = 13;
+const int sensorTras = 13; //AD
+const int sensorEsq = 12; //FE
+const int sensorDir = 11; //FD
 
 // Botão de ativação
 const int botao = 2;
@@ -25,11 +16,11 @@ const int motorDir_A = 9;
 const int motorDir_B = 10;
 
 // Parâmetros
-const int velocidade = 248;          // PWM ajustado para ~195RPM
-const int tempoRecuo = 100;          // ms
-const int tempoGiro = 100;           // ms
+const int velocidade = 150;          // PWM ajustado para ~195RPM
+const int tempoRecuo = 10;          // ms
+const int tempoGiro = 10;           // ms
 const int alcanceAtaque = 10;        // cm
-const int tempoInicial = 3000;       // ms (contagem regressiva)
+const int tempoInicial = 500;       // ms (contagem regressiva)
 
 // ============ SETUP ============
 void setup() {
@@ -57,7 +48,7 @@ void setup() {
     delay(10);
   }
 
-  Serial.println("Ativando em 3 segundos...");
+  Serial.println("Ativando em 1 segundos...");
   delay(tempoInicial);
 }
 
@@ -65,7 +56,7 @@ void setup() {
 void loop() {
   // Proteção de borda
   if (digitalRead(sensorDir) == LOW || digitalRead(sensorEsq) == LOW || digitalRead(sensorTras) == LOW) {
-    Serial.println("⚠️ Linha detectada! Recuando e girando...");
+    Serial.println("Linha detectada! Recuando e girando...");
     re();
     delay(tempoRecuo);
     girar();
@@ -77,15 +68,15 @@ void loop() {
   int cm = ultrasonic.read(CM);
 
   if (cm > 0 && cm <= alcanceAtaque) {
-    Serial.println("🎯 Inimigo detectado! Atacando...");
+    Serial.println("Inimigo detectado! Atacando...");
     atacar();
-    delay(100); // pequeno impulso
+    delay(0); // pequeno impulso
     return;
   }
 
   // Movimento padrão de busca
   frente();
-  delay(10);
+  delay(1250);
 }
 
 // ============ FUNÇÕES DE MOVIMENTO ============
